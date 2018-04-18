@@ -10,7 +10,7 @@ var appVue = new Vue({
   data:{
     dataProduct: [
         {
-            id: 11,
+            id: 1,
             titulo: 'Titulo 1',
             valor: '200,00',
             imagem: 'http://via.placeholder.com/350x350',
@@ -29,11 +29,34 @@ var appVue = new Vue({
             valor: '400,00',
             imagem: 'http://via.placeholder.com/350x350',
             user_id: 2,
-        }
+        },
+        {
+            id: 14,
+            titulo: 'Titulo 4',
+            valor: '400,00',
+            imagem: 'http://via.placeholder.com/350x350',
+            user_id: 2,
+        },
     ],
     dataUser: {
         logged: 0,
         user_id: 1,
-    }
+        favorites: [
+            1,
+            13,
+        ]
+    },
+    valor_buotao: 'Deslogado'
+  },
+  methods: {
+      acaoLogar: function() {
+            if (this.valor_buotao == 'Deslogado') {
+                this.valor_buotao = 'Logado'
+                this.dataUser.logged = 1
+            } else {
+                this.valor_buotao = 'Deslogado'
+                this.dataUser.logged = 0
+            }
+      }
   }
 })

@@ -1,49 +1,42 @@
 <template>
     <div class="box-product">
-        <div class="div-favorito-xxxxxx">
-            <!-- @if(Auth::check() == 0) -->
-                <a @click.prevent='setFavorite(0)'>
-                    <div class="img-inativo"></div>
-                </a>
-            <!-- @else -->
-                <!-- <a class="produto-xxxxx" @click.prevent='setFavorite(xxxxxx)'> -->
-                    <!-- @if($produto->favorito) -->
-                        <!-- <span class="img-ativo"></span> -->
-                    <!-- @else -->
-                        <!-- <span class="img-inativo"></span> -->
-                    <!-- @endif -->
-                <!-- </a> -->
-            <!-- @endif -->
+        <div class='box-favorite'>
+            <div class='favorite' @click.prevent='setFavorite(0)' v-if="dataUser.logged == 0"><span class='glyphicon glyphicon-star inactive'></span></div>
+            <div class='favorite' @click.prevent='setFavorite(1)' v-else-if="dataUser.logged == 1 && verifyFavorite(dataProduct.id)"><span class='glyphicon glyphicon-star active'></span></div>
+            <div class='favorite' @click.prevent='setFavorite(2)' v-else><span class='glyphicon glyphicon-star inactive'></span></div>
         </div>
 
-        <div class='title'>
-            <b>{{ product.titulo }}</b>
-        </div>
-        <div class='image'>
-            <img class="img-thumbnail" :src="product.imagem" alt="Produto">
+        <div class='box-title'>
+            {{ dataProduct.titulo }}
         </div>
 
-        <div class='value'>
-            <b>Pre&ccedil;o: R$ {{ product.valor }}</b>
+        <div class='box-image'>
+            <img class="img-thumbnail" :src="dataProduct.imagem" alt="Produto">
         </div>
 
-        <div class='buttons'>
-            <a :href="product.link" class='btn btn-warning'><b>Ver detalhes</b></a>
-            <!-- @if(Auth::check() == 0) -->
-                <!-- <button class='btn btn-info' title='Necessário estar logado' disabled><span class="glyphicon glyphicon-envelope"></span></button> -->
-            <!-- @elseif(Auth::user()->id == $produto->user->id) -->
-                <!-- <button class='btn btn-info' title='Este produto é seu' disabled><span class="glyphicon glyphicon-envelope"></span></button> -->
-            <!-- @else -->
-                <button class='btn btn-info' @click.prevent="openContact(product.id)"><span class="glyphicon glyphicon-envelope"></span></button>
-            <!-- @endif -->
+        <div class='box-value'>
+            Pre&ccedil;o: R$ {{ dataProduct.valor }}
+        </div>
+
+        <div class='box-buttons'>
+            <a :href="'XX/XX/' + dataProduct.id" class='btn btn-warning'><b>Ver detalhes</b></a>
+            <button class='btn btn-info' title='Necessário estar logado' disabled v-if="dataUser.logged == 0"><span class="glyphicon glyphicon-envelope"></span></button>
+            <button class='btn btn-info' title='Este produto é seu' disabled v-else-if="dataUser.user_id == dataProduct.user_id"><span class="glyphicon glyphicon-envelope"></span></button>
+            <button class='btn btn-info' @click.prevent="openContact(dataProduct.id)" v-else ><span class="glyphicon glyphicon-envelope"></span></button>
         </div>
     </div>
 </template>
 
 <style media="screen">
     .box-product { text-align: center; }
-    .box-product .image { width: 200px; height: 200px; }
-    .box-product .image img { width: 100%; height: 100%; }
+    .box-product .box-title { font-size: 18px; font-weight: bold;}
+    .box-product .box-image { width: 200px; height: 200px; margin: 0 auto;}
+    .box-product .box-image img { width: 100%; height: 100%; }
+    .box-product .box-value { font-weight: bold }
+    .box-product .box-favorite .favorite { width: 20px; height: 21px; display: block; margin: auto; cursor: pointer}
+    .box-product .box-favorite .favorite .glyphicon { font-size: 24px}
+    .box-product .box-favorite .favorite .active { color: #E8D336}
+    .box-product .box-favorite .favorite .inactive { color: #ccc}
 </style>
 
 <script>
@@ -51,26 +44,34 @@
         props: ['data-product', 'data-user'],
         data() {
             return {
-                product: {
-                    id: this.dataProduct.id,
-                    titulo: this.dataProduct.titulo,
-                    valor: this.dataProduct.valor,
-                    imagem: this.dataProduct.imagem,
-                    link: 'xx/xx/' + this.dataProduct.id,
-                },
-                user: {
-                    logged: this.dataUser.logged,
-                    user_id: this.dataUser.user_id,
-                }
+
             }
         },
         methods: {
             openContact: function(id) {
                 alert(id)
             },
+            verifyFavorite: function(product_id) {
+                // var inArray = this.user.favorites.indexOf(product_id) + 1;
+                var inArray = this.dataUser.favorites.indexOf(product_id) + 1;
+                if (inArray > 0) {
+                    return true
+                }
+                return false
+            },
             setFavorite: function(status) {
+                if (status == 0) {
+                    alert('Necessário estar logado')
+                } else if (status == 1) {
+                    alert('Desfavoritado')
+                } else {
+                    alert('Favoritado')
+                }
+            },
+        },
+        created: function() {
 
-            }
         }
     }
+
 </script>
