@@ -8,7 +8,7 @@
 </head>
 
 <body>
-    <div id="app">
+    <div id="app" class='hide'>
         <div class='container'>
             <h1>Webpack Vue Components</h1>
 
@@ -16,12 +16,20 @@
                 <h2>Bloco de produto</h2>
                 <button class='btn btn-primary' @click='acaoLogar()'>{{ valor_buotao }}</button>
                 <br>
-                <div class="col-md-3 col-sm-6 col-xs-12" v-for='dados in dataProduct'>
+                <div class="col-xs-12 col-sm-6 col-md-3" v-for='dados in dataProduct'>
                     <product :data-product="dados" :data-user='dataUser' />
+                </div>
+            </div>
+
+            <div class="row well">
+                <h2>Input Search</h2>
+                <div class="col-xs-12" >
+                    <input-search/>
                 </div>
             </div>
         </div>
     </div>
+
     <script src="/dist/build.js"></script>
 </body>
 

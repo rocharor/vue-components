@@ -52,7 +52,6 @@
                 alert(id)
             },
             verifyFavorite: function(product_id) {
-                // var inArray = this.user.favorites.indexOf(product_id) + 1;
                 var inArray = this.dataUser.favorites.indexOf(product_id) + 1;
                 if (inArray > 0) {
                     return true
@@ -63,9 +62,9 @@
                 if (status == 0) {
                     alert('Necessário estar logado')
                 } else if (status == 1) {
-                    alert('Desfavoritado')
+                    alert('Ação Desfavoritado')
                 } else {
-                    alert('Favoritado')
+                    alert('Ação Favoritado')
                 }
             },
         },
